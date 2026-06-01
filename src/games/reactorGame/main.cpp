@@ -30,7 +30,11 @@ public:
     void Update() override {
         if (Input.GetKeyDown(GLFW_KEY_W)) {
             Debug.Log(Input.GetKeyName(GLFW_KEY_W));
-            ma_sound_start(&songSound.sound); 
+            Audio.PlaySound(songSound);
+        }
+        if (Input.GetKeyDown(GLFW_KEY_S)) {
+            Debug.Log(Input.GetKeyName(GLFW_KEY_S));
+            Audio.StopSound(songSound);
         }
     }
 

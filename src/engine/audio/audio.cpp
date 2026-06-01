@@ -46,3 +46,16 @@ bool audio::CreateSound(unsigned char* buffer, size_t bufferSize, Sound* outSoun
     
     return true;
 }
+
+
+
+void audio::PlaySound(Sound& sound){
+    ma_sound_start(&sound.sound);
+}
+
+
+
+void audio::StopSound(Sound& sound){
+    ma_sound_stop(&sound.sound);
+    ma_sound_seek_to_pcm_frame(&sound.sound, 0);
+}
