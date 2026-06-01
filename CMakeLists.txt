@@ -15,6 +15,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(glm REQUIRED)
 
 set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/imgui")
 
@@ -44,6 +45,8 @@ add_library(AntiMatterEngine SHARED
     src/engine/engine.h
     src/engine/debug/Debug.h
     src/engine/debug/Debug.cpp
+    src/engine/camera/camera.h
+    src/engine/camera/camera.cpp
 )
 
 set(glfw3_DIR "/usr/lib/cmake/glfw3/")
@@ -64,5 +67,5 @@ target_include_directories(AntiMatterGame PUBLIC
     src/engine/
 )
 
-target_link_libraries(AntiMatterGame PRIVATE AntiMatterEngine glfw OpenGL::GL)
+target_link_libraries(AntiMatterGame PRIVATE AntiMatterEngine glfw OpenGL::GL glm::glm)
 
