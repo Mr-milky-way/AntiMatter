@@ -1,0 +1,6 @@
+[submodule "third_party/squirrel"]
+	path = third_party/squirrel
+	url = https://github.com/albertodemichelis/squirrel.git
+[submodule "third_party/glad"]
+	path = third_party/glad
+	url = https://github.com/Dav1dde/glad.git
