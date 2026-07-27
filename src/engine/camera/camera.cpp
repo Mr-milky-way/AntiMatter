@@ -4,7 +4,7 @@
 
 
 glm::mat4 camera::GetViewPerspective() {
-    float aspectRatio = (float)WindowManager.width / (float)WindowManager.height;
+    float aspectRatio = (float)WindowManager.WindowWidth / (float)WindowManager.WindowHeight;
     return glm::perspective(glm::radians(FOV), aspectRatio, near, far);
 }
 

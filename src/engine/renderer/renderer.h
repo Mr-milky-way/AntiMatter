@@ -1,12 +1,20 @@
-#include ""
+#pragma once
+#include <vector>
+#include <cstdint>
 
 class renderer {
 private:
-    unsigned int VAO;
-    unsigned int IBO;
+    unsigned int VAO = 0;
+    unsigned int VBO = 0;
+    unsigned int IBO = 0;
     
-    
-    void UploadDataToBuffers(GPUVertex vertexes, uint32_t indices);
+    void UploadDataToBuffers(const std::vector<GPUVertex>& vertexes, const std::vector<uint32_t>& indices);
 public:
-    void renderCamera(camera Camera);
-}
+
+    renderer();
+    ~renderer();
+
+
+    
+    void renderCamera(const camera& Camera);
+};

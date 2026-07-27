@@ -17,6 +17,7 @@ namespace AntiMatter {
         filesystem Filesystem;
         audio Audio;
         window WindowManager;
+        
         void Run();
 
 
@@ -29,8 +30,6 @@ namespace AntiMatter {
         virtual void BeforeClose() {}
 
     protected:
-        GLFWwindow* Window = nullptr;
-
         float deltaTime;
 
         bool doVsync = true;

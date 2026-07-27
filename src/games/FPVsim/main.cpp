@@ -9,6 +9,7 @@
 camera Camera;
 ImVec4 clear_color = ImVec4(0.0f, 0.1f, 0.40f, 1.00f);
 static vector2Float lastMousePos = {0.0f, 0.0f};
+
 class Sim : public AntiMatter::Application {
 public:
     std::vector<char> song;
@@ -27,19 +28,20 @@ public:
             song.size(),
             &songSound
         );
+        WindowManager.ChangeWindowName("DroneSim");
     }
 
     void Update() override {
-        if (Input.GetKeyDown(GLFW_KEY_W)) {
+        if (Input.GetKeyDown(KeyCode::W)) {
             Audio.PlaySound(songSound);
             Camera.MoveCamera(0,0, 1* deltaTime);
         }
-        if (Input.GetKeyDown(GLFW_KEY_S)) {
+        if (Input.GetKeyDown(KeyCode::S)) {
             Audio.StopSound(songSound);
             Camera.SetCameraPostition(0,0,5);
             Camera.SetCameraRotation(0,-90,0);
         }
-        if (Input.GetMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+        if (Input.GetMouseButtonDown(KeyCode::Mouse1)) {
             Input.DisableCursor();
             vector2Float currentMousePos = Input.GetCursorPos();
 
@@ -52,10 +54,10 @@ public:
 
             Debug.Log("DeltaY: " + std::to_string(deltaY));
         }
-        if (Input.GetKeyDown(GLFW_KEY_ESCAPE)){
+        if (Input.GetKeyDown(KeyCode::Escape)){
             Input.EnableCursor();
         }
-        if (Input.GetKeyDown(GLFW_KEY_Q)) {
+        if (Input.GetKeyDown(KeyCode::Q)) {
             Camera.RotateCamera(0,0,50 * deltaTime);
         }
     }
@@ -68,17 +70,15 @@ public:
         glm::mat4 projection = Camera.GetViewPerspective();
         glLoadMatrixf(glm::value_ptr(projection));
 
-        // 2. Set up your ModelView Matrix using your GLM Camera
         glMatrixMode(GL_MODELVIEW);
         glm::mat4 viewMatrix = Camera.GetViewMatrix();
         glLoadMatrixf(glm::value_ptr(viewMatrix)); 
 
-        // 3. Draw the legacy Quad
         glBegin(GL_QUADS);
-            glVertex3f(-0.5f,  0.5f, 0.0f); // Top Left
-            glVertex3f(-0.5f, -0.5f, 0.0f); // Bottom Left
-            glVertex3f( 0.5f, -0.5f, 0.0f); // Bottom Right
-            glVertex3f( 0.5f,  0.5f, 0.0f); // Top Right
+            glVertex3f(-0.5f,  0.5f, 0.0f);
+            glVertex3f(-0.5f, -0.5f, 0.0f);
+            glVertex3f( 0.5f, -0.5f, 0.0f);
+            glVertex3f( 0.5f,  0.5f, 0.0f);
         glEnd();
     }
 

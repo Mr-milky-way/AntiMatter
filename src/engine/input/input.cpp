@@ -1,22 +1,27 @@
 #include "input.h"
 #include <GLFW/glfw3.h>
 
-bool input::GetKeyDown(int keycode) {
-    int state = glfwGetKey(WindowForInput, keycode);
+bool input::GetKeyDown(KeyCode keycode) {
+
+    int rawKey = static_cast<int>(keycode);
+
+    int state = glfwGetKey(WindowForInput, rawKey);
     if (state == GLFW_PRESS){
         return true;
     }
     return false;
 }
 
-const char* input::GetKeyName(int keycode) {
-    const char* name = glfwGetKeyName(keycode, 0);
+const char* input::GetKeyName(KeyCode keycode) {
+    int rawKey = static_cast<int>(keycode);
+
+    const char* name = glfwGetKeyName(rawKey, 0);
     
     if (name) {
         return name;
     }
 
-    switch (keycode) {
+    switch (rawKey) {
         case GLFW_KEY_SPACE: return "Space";
         case GLFW_KEY_ESCAPE: return "Escape";
         case GLFW_KEY_ENTER: return "Enter";
@@ -54,8 +59,10 @@ vector2Float input::GetCursorPos(){
     return pos;
 }
 
-bool input::GetMouseButtonDown(int keycode) {
-    int state = glfwGetMouseButton(WindowForInput, keycode);
+bool input::GetMouseButtonDown(KeyCode keycode) {
+    int rawKey = static_cast<int>(keycode);
+    
+    int state = glfwGetMouseButton(WindowForInput, rawKey);
     if (state == GLFW_PRESS){
         return true;
     }

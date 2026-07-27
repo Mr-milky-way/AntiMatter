@@ -1,16 +1,17 @@
+#pragma once
 #include <GLFW/glfw3.h>
 #include "../datatypes/datatypes.h"
+#include "keycodes.h"
 
 
-#pragma once
 class input {
 public:
     GLFWwindow* WindowForInput;
-    bool GetKeyDown(int keycode);
-    const char* GetKeyName(int keycode);
+    bool GetKeyDown(KeyCode keycode);
+    const char* GetKeyName(KeyCode keycode);
 
     void DisableCursor();
     void EnableCursor();
     vector2Float GetCursorPos();
-    bool GetMouseButtonDown(int keycode);
+    bool GetMouseButtonDown(KeyCode keycode);
 };

@@ -83,9 +83,9 @@ target_include_directories(AntiMatterEngine PUBLIC
 
 target_link_libraries(AntiMatterEngine PUBLIC glad_opengl)
 
-add_executable(AntiMatterGame src/games/reactorGame/main.cpp
-    src/games/reactorGame/reactor/reactor.h
-    src/games/reactorGame/reactor/reactor.cpp
+add_executable(AntiMatterGame src/games/FPVsim/main.cpp
+    src/games/FPVsim/reactor/reactor.h
+    src/games/FPVsim/reactor/reactor.cpp
 )
 
 target_include_directories(AntiMatterGame PUBLIC 

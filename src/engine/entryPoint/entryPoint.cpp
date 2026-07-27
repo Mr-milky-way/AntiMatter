@@ -3,9 +3,6 @@
 #include "datatypes/datatypes.h"
 #include <iostream>
 #include <chrono>
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 #include "../window/window.h"
 
@@ -18,31 +15,13 @@ namespace AntiMatter {
 
     void AntiMatter::Application::Run() {
 
-        //GLFW init
-        if (!glfwInit()) {
-            std::cerr << "Failed to initialize GLFW" << std::endl;
+
+        if (!WindowManager.InitWindow(640, 480, "AntiMatter")) {
+            std::cerr << "Window initialization failed\n";
             return;
         }
-    
-        Window = glfwCreateWindow(640, 480, "AntiMatter", NULL, NULL);
-        if (!Window) {
-            std::cerr << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
-            return;
-        }
-        glfwSetFramebufferSizeCallback(Window, window::framebuffer_size_callback);
-        Input.WindowForInput = Window;
-        glfwMakeContextCurrent(Window);
         
-
-
-        //GLAD init
-        if (!gladLoadGL((GLADloadfunc)glfwGetProcAddress)) {
-            std::cout << "Failed to initialize GLAD" << std::endl;
-            return;
-        }
-        glViewport(0, 0, 640, 480);
-
+        Input.WindowForInput = WindowManager.Window;
 
         glfwSwapInterval(doVsync);
 
@@ -50,19 +29,10 @@ namespace AntiMatter {
 
         OnStart();
 
-        //setup ImGUI
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-        ImGui::StyleColorsDark();
-
-        ImGui_ImplGlfw_InitForOpenGL(Window, true);
-        ImGui_ImplOpenGL3_Init("#version 330");
-
         auto lastTime = std::chrono::steady_clock::now();
 
-        while (!glfwWindowShouldClose(Window)) {
+        while (!WindowManager.WindowShouldClose()) {
+
             auto currentTime = std::chrono::steady_clock::now();
             std::chrono::duration<float> elapsed = currentTime - lastTime;
             deltaTime = elapsed.count();
@@ -73,29 +43,24 @@ namespace AntiMatter {
             Update();
             
             int display_w, display_h;
-            glfwGetFramebufferSize(Window, &display_w, &display_h);
+            glfwGetFramebufferSize(WindowManager.Window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
-            OnRender(); // for OpenGL
 
 
+            OnRender();
 
-            ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
 
+            WindowManager.BeginImGuiFrame();
             OnImGuiRender();
-
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            WindowManager.EndImGuiFrame();
 
 
 
-            glfwSwapBuffers(Window);
+            glfwSwapBuffers(WindowManager.Window);
 
 
-            //Settings
+            // Settings
             if (isVsyncOn != doVsync){
                 glfwSwapInterval(doVsync);
                 isVsyncOn = doVsync;
@@ -104,9 +69,7 @@ namespace AntiMatter {
 
 
         BeforeClose();
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
-        glfwTerminate();
+
+        WindowManager.WindowCleanUp();
     }
 }
