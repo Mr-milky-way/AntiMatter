@@ -47,7 +47,7 @@ std::vector<char> filesystem::GetFileBuffer(const char* filename){
         std::ifstream file(assetsPath.string() + "/" + filename, std::ios::binary | std::ios::ate);
 
         if (!file) {
-            std::cerr << "Error: Could not open file." << std::endl;
+            std::cerr << "[filesystem::GetFileBuffer] Error: Could not open file." << std::endl;
             return {};
         }
 
@@ -73,7 +73,7 @@ bool filesystem::MountFilePack(const char* filename) {
         pakHandle.open(assetsPath.string() + "/" + filename, std::ios::binary);
 
         if (!pakHandle) {
-            std::cerr << "Error: Could not open file." << std::endl;
+            std::cerr << "[filesystem::MountFilePack] Error: Could not open file." << std::endl;
             return false;
         }
     } else {

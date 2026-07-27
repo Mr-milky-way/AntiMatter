@@ -3,6 +3,7 @@
 #include "filesystem/filesystem.h"
 #include "audio/audio.h"
 #include "debug/Debug.h"
+#include "window/window.h"
 
 #pragma once
 
@@ -15,6 +16,7 @@ namespace AntiMatter {
         input Input;
         filesystem Filesystem;
         audio Audio;
+        window WindowManager;
         void Run();
 
 

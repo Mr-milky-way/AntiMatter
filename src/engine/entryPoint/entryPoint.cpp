@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include "entryPoint.h"
 #include "datatypes/datatypes.h"
 #include <iostream>
@@ -7,6 +7,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
+#include "../window/window.h"
 
 namespace AntiMatter {
     Application::Application() {
@@ -29,13 +30,14 @@ namespace AntiMatter {
             glfwTerminate();
             return;
         }
+        glfwSetFramebufferSizeCallback(Window, window::framebuffer_size_callback);
         Input.WindowForInput = Window;
         glfwMakeContextCurrent(Window);
         
 
 
         //GLAD init
-        if (!gladLoadGL()) {
+        if (!gladLoadGL((GLADloadfunc)glfwGetProcAddress)) {
             std::cout << "Failed to initialize GLAD" << std::endl;
             return;
         }
@@ -66,13 +68,15 @@ namespace AntiMatter {
             deltaTime = elapsed.count();
             lastTime = currentTime;
 
-            Update();
+
             glfwPollEvents();
+            Update();
             
             int display_w, display_h;
             glfwGetFramebufferSize(Window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            
             OnRender(); // for OpenGL
 
 
@@ -80,7 +84,9 @@ namespace AntiMatter {
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
-            OnImGuiRender(); //ImGui Logic
+
+            OnImGuiRender();
+
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

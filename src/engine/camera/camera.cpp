@@ -3,6 +3,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
+glm::mat4 camera::GetViewPerspective() {
+    float aspectRatio = (float)WindowManager.width / (float)WindowManager.height;
+    return glm::perspective(glm::radians(FOV), aspectRatio, near, far);
+}
+
 glm::mat4 camera::GetViewMatrix() {
     return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
@@ -15,12 +20,13 @@ void camera::updateVectors() {
     cameraFront = glm::normalize(front);
 
     glm::vec3 worldUp{0.0f, 1.0f, 0.0f};
-    glm::vec3 right = glm::normalize(glm::cross(cameraFront, worldUp));
-    glm::vec3 baseUp = glm::normalize(glm::cross(right, cameraFront));
 
     glm::mat4 rollMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(roll), cameraFront);
-    
-    cameraUp = glm::vec3(rollMatrix * glm::vec4(baseUp, 0.0f));
+
+    glm::vec3 rolledWorldUp = glm::vec3(rollMatrix * glm::vec4(worldUp, 0.0f));
+
+    glm::vec3 right = glm::normalize(glm::cross(cameraFront, rolledWorldUp));
+    cameraUp = glm::normalize(glm::cross(right, cameraFront));
 }
 
 void camera::SetCameraRotation(float x, float y, float z) {

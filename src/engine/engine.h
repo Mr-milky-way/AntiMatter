@@ -5,3 +5,4 @@
 #include "filesystem/filesystem.h"
 #include "input/input.h"
 #include "debug/Debug.h"
+#include "camera/camera.h"

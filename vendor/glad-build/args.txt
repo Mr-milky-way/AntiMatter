@@ -1,0 +1,1 @@
+--out-path /home/mr-milky-way/Documents/ProgramingStuff/AntiMatter/vendor/glad-build/ --api gl:core=4.6 c
