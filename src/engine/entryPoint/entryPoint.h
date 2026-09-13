@@ -4,6 +4,8 @@
 #include "audio/audio.h"
 #include "debug/Debug.h"
 #include "window/window.h"
+#include "renderer/renderer.h"
+#include "time/time.h"
 
 #pragma once
 
@@ -13,10 +15,12 @@ namespace AntiMatter {
         Application();
         virtual ~Application();
         debug Debug;
+        EngineTimer Time;
         input Input;
         filesystem Filesystem;
         audio Audio;
         window WindowManager;
+        renderer Renderer;
         
         void Run();
 
@@ -30,8 +34,6 @@ namespace AntiMatter {
         virtual void BeforeClose() {}
 
     protected:
-        float deltaTime;
-
         bool doVsync = true;
         bool isVsyncOn = true;
     };

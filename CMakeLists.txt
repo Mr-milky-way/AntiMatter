@@ -19,6 +19,8 @@ find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
 
+add_subdirectory(third_party/entt)
+ 
 add_subdirectory(third_party/glad/cmake/)
 
 # 2. Define standard out paths
@@ -65,9 +67,11 @@ add_library(AntiMatterEngine SHARED
     src/engine/camera/camera.h
     src/engine/camera/camera.cpp
     src/engine/renderer/renderer.h
-
+    src/engine/renderer/renderer.cpp
     src/engine/window/window.h
     src/engine/window/window.cpp
+    src/engine/time/time.h
+    src/engine/time/time.cpp
 )
 
 add_dependencies(AntiMatterEngine glad_opengl)
@@ -92,4 +96,4 @@ target_include_directories(AntiMatterGame PUBLIC
     src/engine/
 )
 
-target_link_libraries(AntiMatterGame PRIVATE AntiMatterEngine glfw OpenGL::GL glm::glm)
+target_link_libraries(AntiMatterGame PRIVATE AntiMatterEngine glfw OpenGL::GL glm::glm EnTT::EnTT)

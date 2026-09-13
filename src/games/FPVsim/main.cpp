@@ -5,6 +5,7 @@
 #include "reactor/reactor.h"
 #include <thread>
 #include <glm/gtc/type_ptr.hpp>
+#include <entt/entt.hpp>
 
 camera Camera;
 ImVec4 clear_color = ImVec4(0.0f, 0.1f, 0.40f, 1.00f);
@@ -34,7 +35,7 @@ public:
     void Update() override {
         if (Input.GetKeyDown(KeyCode::W)) {
             Audio.PlaySound(songSound);
-            Camera.MoveCamera(0,0, 1* deltaTime);
+            Camera.MoveCamera(0,0, 1* Time.Delta());
         }
         if (Input.GetKeyDown(KeyCode::S)) {
             Audio.StopSound(songSound);
@@ -58,7 +59,7 @@ public:
             Input.EnableCursor();
         }
         if (Input.GetKeyDown(KeyCode::Q)) {
-            Camera.RotateCamera(0,0,50 * deltaTime);
+            Camera.RotateCamera(0,0,50 * Time.Delta());
         }
     }
 
@@ -85,7 +86,7 @@ public:
     void OnImGuiRender() override {
         {
             ImGui::Begin("Hello, user!");
-            ImGui::Text("Application Stats %.3f ms/frame (%.1f FPS)", (float)deltaTime * 1000, 1/deltaTime);
+            ImGui::Text("Application Stats %.3f ms/frame (%.1f FPS)", (float)Time.Delta() * 1000, Time.FPS());
             ImGui::Checkbox("Vsync on?", &doVsync);
             ImGui::ColorEdit3("Background Color", (float*)&clear_color);
             ImGui::SliderFloat("Label", &Camera.FOV, 30.0f, 180.0f);

@@ -2,7 +2,6 @@
 #include "entryPoint.h"
 #include "datatypes/datatypes.h"
 #include <iostream>
-#include <chrono>
 #include <GLFW/glfw3.h>
 #include "../window/window.h"
 
@@ -28,26 +27,16 @@ namespace AntiMatter {
         Audio.initSound();
 
         OnStart();
-
-        auto lastTime = std::chrono::steady_clock::now();
-
+        
         while (!WindowManager.WindowShouldClose()) {
 
-            auto currentTime = std::chrono::steady_clock::now();
-            std::chrono::duration<float> elapsed = currentTime - lastTime;
-            deltaTime = elapsed.count();
-            lastTime = currentTime;
+            Time.Update();
 
 
             glfwPollEvents();
             Update();
             
-            int display_w, display_h;
-            glfwGetFramebufferSize(WindowManager.Window, &display_w, &display_h);
-            glViewport(0, 0, display_w, display_h);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
+            Renderer.Render(WindowManager.Window);
             OnRender();
 
 

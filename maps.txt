@@ -1,0 +1,10 @@
+Plan for maps
+
+
+.map files
+
+starts with json then goes to bin
+
+json handles the Userinfo and stuff like textures and shader map numbers spawn points ect
+
+Bin stuff handles tris verts lighting

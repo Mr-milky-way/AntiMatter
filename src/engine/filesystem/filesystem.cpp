@@ -8,10 +8,13 @@ filesystem::filesystem() {
 
 std::filesystem::path filesystem::GetEXdir() {
     #if defined(_WIN32)
+
         wchar_t buffer[MAX_PATH];
         GetModuleFileNameW(NULL, buffer, MAX_PATH);
         std::filesystem::path(buffer).parent_path();
+
     #elif defined(__linux__)
+
         char buffer[PATH_MAX];
         ssize_t length = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
         if (length != -1) {
@@ -19,15 +22,19 @@ std::filesystem::path filesystem::GetEXdir() {
             return std::filesystem::path(buffer).parent_path();
         }
         return "";
+
     #endif
 }
 
 std::filesystem::path filesystem::GetAssetPath() {
     #if defined(_WIN32)
+
         wchar_t buffer[MAX_PATH];
         GetModuleFileNameW(NULL, buffer, MAX_PATH);
         std::filesystem::path(buffer).parent_path().parent_path() / "assets";
+
     #elif defined(__linux__)
+    
         char buffer[PATH_MAX];
         ssize_t length = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
         if (length != -1) {
@@ -35,6 +42,7 @@ std::filesystem::path filesystem::GetAssetPath() {
             return std::filesystem::path(buffer).parent_path().parent_path() / "assets";
         }
         return "";
+
     #endif
 }
 
